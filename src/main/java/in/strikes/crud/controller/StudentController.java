@@ -26,9 +26,7 @@ public class StudentController {
     
     @PostMapping("/create") 
     public ResponseEntity<Student> createStudent(@RequestBody  Student student) {
-        System.out.println("2. StudentController.createStudent() -> request received for " + student.getName());
         Student createdStudent = studentService.createStudent(student);
-        System.out.println("7. StudentController.createStudent() -> sending response, student id " + createdStudent.getId());
         return ResponseEntity.status(201).body(createdStudent);
     }
 
@@ -45,37 +43,29 @@ public class StudentController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Student>> getAllStudents() {
-        System.out.println("StudentController.getAllStudents() -> request received");
         List<Student> students = studentService.getAllStudents();
-        System.out.println("StudentController.getAllStudents() -> sending " + students.size() + " students");
         return ResponseEntity.status(HttpStatus.OK).body(students);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        System.out.println("StudentController.updateStudent() -> request received for id " + id);
         Student updatedStudent = studentService.updateStudent(id, student);
 
         if (updatedStudent == null) {
-            System.out.println("StudentController.updateStudent() -> student not found, sending 404");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        System.out.println("StudentController.updateStudent() -> sending updated student");
         return ResponseEntity.status(HttpStatus.OK).body(updatedStudent);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
-        System.out.println("StudentController.deleteStudent() -> request received for id " + id);
         boolean deleted = studentService.deleteStudent(id);
 
         if (!deleted) {
-            System.out.println("StudentController.deleteStudent() -> student not found, sending 404");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
         }
 
-        System.out.println("StudentController.deleteStudent() -> sending response");
         return ResponseEntity.status(HttpStatus.OK).body("Student deleted");
     }
 }

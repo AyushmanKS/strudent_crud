@@ -7,10 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CrudApplication {
 
 	public static void main(String[] args) {
-		System.out.println("CrudApplication.main() -> starting app");
 		SpringApplication.run(CrudApplication.class, args);
-
-		System.out.println("Hello world");
 	}
 
 }
