@@ -17,6 +17,7 @@ public class Student {
     private String email;
     private int rollNo;
     private String subject;
+    private Boolean deleted;
 
     public Long getId() {
         System.out.println("   Student.getId() -> " + id);
@@ -71,5 +72,15 @@ public class Student {
     public void setSubject(String subject) {
         System.out.println("1. Student.setSubject() -> " + subject);
         this.subject = subject;
+    }
+
+    public Boolean getDeleted() {
+        System.out.println("   Student.getDeleted() -> " + deleted);
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        System.out.println("1. Student.setDeleted() -> " + deleted);
+        this.deleted = deleted;
     }
 }
