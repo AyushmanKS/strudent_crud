@@ -1,5 +1,8 @@
 package in.strikes.crud.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +11,8 @@ import in.strikes.crud.entity.Student;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    default Student saveStudent(Student studentReq) {
-        Student savedStudent = save(studentReq);
-        return savedStudent;
-    }
+    Optional<Student> findByIdAndDeletedIsFalse(Long id);
+
+    List<Student> findAllByDeletedIsFalse();
+
 }

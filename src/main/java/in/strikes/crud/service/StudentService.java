@@ -17,12 +17,13 @@ public class StudentService {
     }
     
    public Student createStudent(Student studentReq) {
-        Student studentResp = studentRepository.saveStudent(studentReq);
+        studentReq.setDeleted(false);
+        Student studentResp = studentRepository.save(studentReq);
         return studentResp;
     }
 
     public Student getStudent(Long id) {
-        Optional<Student> studentResp = studentRepository.findById(id);
+        Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id);
 
         if (studentResp.isPresent()) {
             return studentResp.get();
@@ -32,12 +33,12 @@ public class StudentService {
     }
 
     public List<Student> getAllStudents() {
-        List<Student> students = studentRepository.findAll();
+        List<Student> students = studentRepository.findAllByDeletedIsFalse();
         return students;
     }
 
     public Student updateStudent(Long id, Student studentReq) {
-        Optional<Student> existingStudent = studentRepository.findById(id);
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
 
         if (existingStudent.isEmpty()) {
             return null;
@@ -49,6 +50,7 @@ public class StudentService {
         student.setEmail(studentReq.getEmail());
         student.setRollNo(studentReq.getRollNo());
         student.setSubject(studentReq.getSubject());
+        student.setDeleted(false);
 
         Student studentResp = studentRepository.save(student);
         return studentResp;
@@ -61,6 +63,21 @@ public class StudentService {
         }
 
         studentRepository.deleteById(id);
+        return true;
+    }
+
+    public boolean deleteStudentSoftly(Long id) {
+
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
+
+        if(existingStudent.isEmpty()) {
+            return false;
+        }
+
+        Student studentToSave = existingStudent.get();
+        studentToSave.setDeleted(true);
+        studentRepository.save(studentToSave);
+
         return true;
     }
 }
